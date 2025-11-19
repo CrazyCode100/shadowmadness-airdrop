@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ShadowMadness × CrazyCode Airdrop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Ethers.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="top-nav">
+      <div class="brand">
+        <div class="avatar">
+          <!-- استبدل هذا الملف بصورة حساب ShadowMadness على X -->
+          <img src="assets/avatar.png" alt="ShadowMadness avatar" />
+        </div>
+        <div class="brand-text">
+          <h1>
+            <span class="glitch">ShadowMadness</span>
+            <span class="lap">LAP</span>
+          </h1>
+          <p>CrazyCode Airdrop • عالم غامض من الكود والجنون 👾</p>
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="contract-pill" title="CrazyCode contract address">
+          <span class="key">CRAZYCODE</span>
+          <span class="sep">|</span>
+          <span class="addr">0xc00E9CB1f4449351E8240A0B7Cb80a60e4f3112F</span>
+        </div>
+        <button class="btn btn-outline" id="btn-connect-wallet">⚡ ربط المحفظة</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <button class="tab-link active" data-tab="airdrop">🎁 صفحة التوزيع المجاني</button>
+        <button class="tab-link" data-tab="stats">📊 الإحصائيات</button>
+        <button class="tab-link" data-tab="how">🧬 كيف يعمل الكود المجنون؟</button>
+      </aside>
+
+      <section class="content">
+        <!-- Airdrop tab -->
+        <section class="tab-content active" id="tab-airdrop">
+          <div class="hero-block">
+            <p class="tagline">اتبع الظل • حرّك الجنون</p>
+            <h2 class="hero-title">
+              احصل على حصتك من <span>CrazyCode</span> مقابل متابعة
+              <span>@ShadowMadnessLAP</span> على X
+            </h2>
+            <p class="hero-sub">
+              الخطوات بسيطة: تابع الحساب، أكد المتابعة، اربط محفظتك، ثم دع العقد المجنون يرسل التوكنات مباشرة إلى محفظتك.
+            </p>
+          </div>
+
+          <div class="steps">
+            <div class="step" id="step-follow">
+              <div class="step-index">1</div>
+              <div class="step-body">
+                <h3>تابع حساب X: ShadowMadness LAP</h3>
+                <p>
+                  سيتم فتح الحساب في نافذة جديدة. قم بالمتابعة هناك، ثم ارجع واضغط زر
+                  <strong>تأكيد المتابعة</strong>.
+                </p>
+                <div class="buttons-row">
+                  <button class="btn btn-outline" id="btn-open-twitter">
+                    <span class="dot"></span>
+                    متابعة على X
+                  </button>
+                  <button class="btn btn-ghost" id="btn-confirm-follow">
+                    ✔ تأكيد المتابعة
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="step" id="step-wallet">
+              <div class="step-index">2</div>
+              <div class="step-body">
+                <h3>ربط المحفظة على BNB Chain</h3>
+                <p>
+                  يفضَّل استخدام MetaMask. تأكد أن الشبكة هي
+                  <strong>BNB Smart Chain Testnet (97)</strong> أثناء التجربة.
+                </p>
+                <div class="status-row">
+                  <span class="status-pill" id="wallet-status">
+                    <span class="dot"></span>
+                    غير متصل
+                  </span>
+                  <span class="status-pill" id="network-pill">
+                    <span class="dot"></span>
+                    شبكة غير معروفة
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="step" id="step-claim">
+              <div class="step-index">3</div>
+              <div class="step-body">
+                <h3>الكليم من العقد المجنون</h3>
+                <p>
+                  بعد تأكيد المتابعة وربط المحفظة، يمكنك طلب حصتك المجانية من CrazyCode مرة واحدة فقط لكل محفظة عن طريق دالة
+                  <code>claimAirdrop()</code> داخل العقد.
+                </p>
+                <div class="buttons-row">
+                  <button class="btn btn-primary" id="btn-claim" disabled>
+                    🎁 Claim CRAZYCODE
+                  </button>
+                  <button class="btn btn-ghost" id="btn-check-claimed">
+                    هل سبق أن طالبت؟
+                  </button>
+                </div>
+                <p class="hint">
+                  ⚠️ الحماية الحقيقية من التكرار تتم داخل العقد نفسه عن طريق
+                  <code>hasClaimed(address)</code>. الواجهة فقط تعرض حالة المحفظة.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats tab -->
+        <section class="tab-content" id="tab-stats">
+          <h2 class="section-title">📊 إحصائيات سريعة عن CrazyCode Airdrop</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>عنوان محفظتك</h3>
+              <p id="stats-address" class="mono muted">لم يتم الربط بعد</p>
+            </div>
+            <div class="stat-card">
+              <h3>حالة الكليم من العقد</h3>
+              <p id="stats-claimed" class="status-text">غير معروف</p>
+              <button class="btn btn-ghost small" id="btn-refresh-claimed">تحديث من العقد</button>
+            </div>
+            <div class="stat-card">
+              <h3>حالة المتابعة</h3>
+              <p id="stats-follow" class="status-text">لم يتم التأكيد</p>
+            </div>
+            <div class="stat-card">
+              <h3>ملاحظات تقنية</h3>
+              <p class="muted">
+                هذه الصفحة تقرأ مباشرة من العقد دالة
+                <code>hasClaimed(address)</code>. للحصول على إحصائيات كاملة
+                (إجمالي عدد المشاركين / المتبقي) تحتاج لاحقاً لعقد يحتوي دوال
+                مخصَّصة أو Backend يقوم بقراءة الأحداث من البلوكشين.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- How-it-works tab -->
+        <section class="tab-content" id="tab-how">
+          <h2 class="section-title">🧬 كيف يعمل الكود المجنون CrazyCode؟</h2>
+          <div class="how-grid">
+            <article class="how-card">
+              <h3>1. العقد هو الحاكم</h3>
+              <p>
+                لا يوجد فريق توزيع مركزي. دالة
+                <code>claimAirdrop()</code> هي المسؤولة عن إرسال التوكنات.
+                العقد يتأكد أن عنوان المحفظة لم يَطْلب من قبل باستخدام
+                <code>hasClaimed(address)</code> ليمنع التكرار.
+              </p>
+            </article>
+            <article class="how-card">
+              <h3>2. شرط متابعة X</h3>
+              <p>
+                هذه النسخة من الموقع تعتمد على تأكيد يدوي للمتابعة. يمكنك لاحقاً
+                استبدال ذلك بـ Backend حقيقي متصل بـ Twitter API للتحقق الآلي من
+                المتابعة لحساب ShadowMadness LAP.
+              </p>
+            </article>
+            <article class="how-card">
+              <h3>3. شبكة BNB</h3>
+              <p>
+                أثناء الاختبار نستخدم BNB Smart Chain Testnet. عند الانتقال
+                للإطلاق الحقيقي، كل ما تحتاجه هو تغيير عنوان العقد إلى نسخة
+                Mainnet وتعديل نصوص التوضيح في هذه الصفحة.
+              </p>
+            </article>
+            <article class="how-card">
+              <h3>4. الأمان</h3>
+              <p>
+                الكود الأمثل أن يحتوي العقد على فحص صارم للحد الأقصى للمحفظة،
+                ومنع أكثر من كليم واحد، وربما حد أقصى إجمالي لـ Airdrop.
+                الواجهة هنا تساعد في عرض الحالة فقط؛ الحماية الأساسية دائماً
+                تكون على مستوى العقد الذكي.
+              </p>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

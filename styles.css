@@ -1,0 +1,499 @@
+/* =============== أساسيات عامة =============== */
+:root {
+  --bg: #050711;
+  --card: rgba(9, 11, 25, 0.9);
+  --accent: #b084ff;
+  --accent2: #00f6c9;
+  --danger: #ff4b81;
+  --text: #f5f5ff;
+  --muted: #9aa0c6;
+  --border: rgba(255, 255, 255, 0.09);
+  --shadow-neon: 0 0 12px rgba(176, 132, 255, 0.7),
+                 0 0 24px rgba(0, 246, 201, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, #301b74 0, transparent 55%),
+    radial-gradient(circle at bottom, #032b28 0, transparent 55%),
+    var(--bg);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+}
+
+.page {
+  width: 100%;
+  max-width: 1120px;
+  background: var(--card);
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.8);
+  padding: 18px 20px 20px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+
+.page::before,
+.page::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(26px);
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.page::before {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, var(--accent) 0, transparent 65%);
+  top: -80px; left: -40px;
+}
+.page::after {
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, var(--accent2) 0, transparent 70%);
+  bottom: -60px; right: -40px;
+}
+
+/* =============== الترويسة =============== */
+
+.top-nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--shadow-neon);
+  background: #1b1930;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-text h1 {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.brand-text .glitch {
+  position: relative;
+  display: inline-block;
+  color: var(--accent2);
+  text-shadow:
+    1px 0 var(--accent),
+    -1px 0 #00c4ff;
+  animation: glitch 1.8s infinite;
+  font-weight: 700;
+}
+.brand-text .lap {
+  font-size: 0.9rem;
+  color: #d0cfff;
+  letter-spacing: 0.04em;
+}
+
+.brand-text p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* =============== عناصر صغيرة =============== */
+
+.contract-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px dashed rgba(255, 255, 255, 0.24);
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  direction: ltr;
+}
+.contract-pill .key { color: var(--accent2); }
+.contract-pill .sep { opacity: 0.6; }
+.contract-pill .addr { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+/* أزرار */
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: radial-gradient(circle at top, var(--accent2), var(--accent));
+  color: #050509;
+  font-weight: 600;
+  box-shadow: var(--shadow-neon);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent2);
+  border: 1px solid rgba(0, 246, 201, 0.4);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.btn.small {
+  padding: 6px 10px;
+  font-size: 0.72rem;
+}
+
+.btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn:hover:not([disabled]) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.9),
+              0 0 18px rgba(176, 132, 255, 0.6);
+}
+
+.btn .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent2);
+}
+
+/* =============== التخطيط الأساسي =============== */
+
+.layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.sidebar {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(3, 6, 18, 0.9);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tab-link {
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 9px 11px;
+  text-align: right;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tab-link.active {
+  background: linear-gradient(130deg, rgba(176, 132, 255, 0.25), rgba(0, 246, 201, 0.16));
+  color: var(--text);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+}
+
+.content {
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: radial-gradient(circle at top left, rgba(176, 132, 255, 0.06), transparent 55%),
+              radial-gradient(circle at bottom right, rgba(0, 246, 201, 0.08), transparent 60%),
+              rgba(3, 5, 20, 0.95);
+  padding: 18px 18px 20px;
+}
+
+/* =============== التبويبات =============== */
+
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+
+/* =============== تبويب التوزيع =============== */
+
+.hero-block {
+  margin-bottom: 16px;
+}
+.tagline {
+  font-size: 0.8rem;
+  color: var(--accent2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.hero-title {
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+.hero-title span {
+  color: var(--accent2);
+}
+.hero-sub {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.steps {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.step-index {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--accent2);
+  flex-shrink: 0;
+}
+.step.done .step-index {
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  color: #02040a;
+  border-color: transparent;
+  box-shadow: var(--shadow-neon);
+}
+.step-body h3 {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+.step-body p {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--muted);
+}
+.status-pill .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #ffb347;
+}
+.status-pill.connected .dot {
+  background: var(--accent2);
+  box-shadow: 0 0 8px rgba(0, 246, 201, 0.8);
+}
+.status-pill.error .dot {
+  background: var(--danger);
+  box-shadow: 0 0 8px rgba(255, 75, 129, 0.8);
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* =============== تبويب الإحصائيات =============== */
+
+.section-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+.stat-card {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(2, 4, 15, 0.9);
+  padding: 10px 12px;
+}
+.stat-card h3 {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+.stat-card p {
+  font-size: 0.8rem;
+}
+
+.muted { color: var(--muted); }
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  direction: ltr;
+  text-align: left;
+}
+.status-text {
+  font-size: 0.85rem;
+}
+
+/* =============== تبويب كيف يعمل =============== */
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+.how-card {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(5, 7, 20, 0.94);
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.how-card h3 {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+/* =============== Toast =============== */
+
+.toast {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  background: #050816;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 0.82rem;
+  color: var(--text);
+  display: none;
+  max-width: 280px;
+  z-index: 9999;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7);
+}
+.toast.error {
+  border-color: var(--danger);
+  color: #ffe3ee;
+}
+.toast.show {
+  display: block;
+  animation: fadeInOut 3.5s ease forwards;
+}
+
+/* =============== حركات =============== */
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-1px, 0.5px) skewX(-2deg); }
+  40% { transform: translate(1px, -0.5px) skewX(2deg); }
+  60% { transform: translate(-0.5px, 1px); }
+  80% { transform: translate(0.5px, -1px); }
+}
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateY(10px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+/* =============== استجابة للشاشات الصغيرة =============== */
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .tab-link {
+    flex: 1;
+    text-align: center;
+  }
+  .top-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
