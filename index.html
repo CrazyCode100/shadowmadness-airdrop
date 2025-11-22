@@ -6,34 +6,34 @@
     <title>CrazyCode Airdrop</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="container">
 
-        <!-- LOGO -->
-        <img src="logo.png" class="logo" alt="CrazyCode Logo">
+<div class="container">
+    <img src="assets/logo.png" class="logo">
 
-        <h2>🔥 Shadow Madness Airdrop</h2>
-        <p>Claim your free CRAZYCODE tokens</p>
+    <h1 class="title">CrazyCode Airdrop</h1>
+    <p class="subtitle">⚡ Managed by AI • Target: ∞</p>
 
-        <div class="card">
-            <p><strong>Airdrop Status:</strong></p>
-            <p id="statusText">Waiting...</p>
-
-            <button id="connectBtn">Connect Wallet</button>
-            <button id="claimBtn" style="display:none;">Claim Airdrop</button>
-
-            <p id="txResult" style="margin-top:15px; color:#8b38ff;"></p>
-        </div>
-
-        <br><br>
-        <footer>
-            <p style="opacity:0.4;">Powered by Shadow Madness Labs</p>
-        </footer>
-
+    <div id="statusBox">
+        <p id="statusText">Connect wallet to start</p>
+        <p id="counter"></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.0/dist/ethers.min.js"></script>
-    <script src="app.js"></script>
+    <button id="connectBtn" class="btn">Connect Wallet</button>
+
+    <a href="https://twitter.com/CrazyCoderLab" target="_blank">
+        <button id="followBtn" class="btn secondary">Follow @CrazyCoderLab</button>
+    </a>
+
+    <button id="claimBtn" class="btn claim" style="display:none;">
+        Claim Airdrop
+    </button>
+
+    <div id="loader" class="loader" style="display:none;"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.8.1/ethers.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
