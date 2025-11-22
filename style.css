@@ -62,3 +62,18 @@ body {
     margin-top: 10px;
     color: #ff5050;
 }
+.follow-btn {
+    background: #1DA1F2;
+    color: white;
+    padding: 14px;
+    border: none;
+    width: 280px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.follow-btn.done {
+    background: #4CAF50;
+}
