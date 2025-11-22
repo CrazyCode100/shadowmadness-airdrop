@@ -1,26 +1,22 @@
-import { ethers } from "https://esm.sh/ethers";
-import { CONTRACT_ADDRESS, ABI, TWITTER_USERNAME } from "../config/config.js";
-import { signer } from "./connect-wallet.js";
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from "../config/config.js";
 
-async function userFollowsTwitter(username) {
-    return confirm(`هل تابعت حساب X @${username} ؟`);
-}
-
-document.getElementById("claimBtn").onclick = async () => {
-
-    if (!signer) return alert("يجب ربط المحفظة أولاً");
-
-    const ok = await userFollowsTwitter(TWITTER_USERNAME);
-    if (!ok) return alert("يجب متابعة حساب X قبل المطالبة!");
-
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-
+document.getElementById("claimBtn").addEventListener("click", async () => {
     try {
+        const wallet = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
         const tx = await contract.claimAirdrop();
-        alert("تم إرسال العملية… يرجى الانتظار");
         await tx.wait();
-        alert("🎉 تم استلام مكافأتك بنجاح!");
+
+        alert("🎉 تم إرسال المكافأة بنجاح!");
+
+        window.location.href = "success.html";
+
     } catch (err) {
-        alert("حدث خطأ: " + err.message);
+        console.log(err);
+        alert("⚠ حدث خطأ أثناء المطالبة");
     }
-};
+});
