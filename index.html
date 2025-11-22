@@ -1,39 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrazyCode Airdrop</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>CrazyCode Airdrop</title>
+  <script type="module" src="./js/web3modal-config.js"></script>
+  <script type="module" src="./js/connect-wallet.js"></script>
+  <script type="module" src="./js/claim.js"></script>
+
+  <link rel="stylesheet" href="./style.css">
+
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      font-family: 'Tajawal', sans-serif;
+    }
+    .logo {
+      width: 180px;
+      margin-top: 20px;
+    }
+    .btn {
+      background: #7b2ff7;
+      padding: 15px 35px;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 20px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container">
-    <img src="assets/logo.png" class="logo">
+  <img src="./assets/logo.png" class="logo">
 
-    <h1 class="title">CrazyCode Airdrop</h1>
-    <p class="subtitle">⚡ Managed by AI • Target: ∞</p>
+  <h1 style="font-size: 38px;">كريزي كود — إير دروب</h1>
+  <p>⚡ يتم إدارته بالذكاء الاصطناعي — الهدف: ∞</p>
 
-    <div id="statusBox">
-        <p id="statusText">Connect wallet to start</p>
-        <p id="counter"></p>
-    </div>
+  <button class="btn" id="connectBtn" onclick="window.W3M.open()">ربط المحفظة</button>
 
-    <button id="connectBtn" class="btn">Connect Wallet</button>
+  <p id="wallet-address" style="margin-top:10px; color:#9af;">لم يتم الربط</p>
 
-    <a href="https://twitter.com/CrazyCoderLab" target="_blank">
-        <button id="followBtn" class="btn secondary">Follow @CrazyCoderLab</button>
-    </a>
+  <button class="btn" id="claimBtn">مطالبة المكافأة 🎁</button>
 
-    <button id="claimBtn" class="btn claim" style="display:none;">
-        Claim Airdrop
-    </button>
-
-    <div id="loader" class="loader" style="display:none;"></div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.8.1/ethers.umd.min.js"></script>
-<script src="config.js"></script>
-<script src="app.js"></script>
 </body>
 </html>
