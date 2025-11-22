@@ -1,11 +1,39 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>CrazyCode Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrazyCode Airdrop</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>مرحباً بك في CrazyCode 👋</h1>
-    <p>إذا شفت هذه الصفحة على GitHub Pages، فالموقع يعمل بشكل صحيح.</p>
+    <div class="container">
+
+        <!-- LOGO -->
+        <img src="logo.png" class="logo" alt="CrazyCode Logo">
+
+        <h2>🔥 Shadow Madness Airdrop</h2>
+        <p>Claim your free CRAZYCODE tokens</p>
+
+        <div class="card">
+            <p><strong>Airdrop Status:</strong></p>
+            <p id="statusText">Waiting...</p>
+
+            <button id="connectBtn">Connect Wallet</button>
+            <button id="claimBtn" style="display:none;">Claim Airdrop</button>
+
+            <p id="txResult" style="margin-top:15px; color:#8b38ff;"></p>
+        </div>
+
+        <br><br>
+        <footer>
+            <p style="opacity:0.4;">Powered by Shadow Madness Labs</p>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.0/dist/ethers.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
