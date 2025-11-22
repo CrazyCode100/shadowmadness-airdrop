@@ -1,20 +1,34 @@
-import { ethers } from "https://esm.sh/ethers";
-import { CONTRACT_ADDRESS, ABI, NETWORK } from "../config/config.js";
+let walletConnected = false;
+let twitterFollowed = false;
 
-export let provider;
-export let signer;
+// زر متابعة تويتر
+document.getElementById("followBtn").onclick = () => {
+    window.open("https://twitter.com/CrazyCoderLab", "_blank");
 
-export async function connectWallet() {
+    twitterFollowed = true;
+
+    document.getElementById("followBtn").innerText = "✔ تمت المتابعة";
+    document.getElementById("followBtn").classList.add("done");
+
+    checkReady();
+};
+
+// ربط المحفظة
+document.getElementById("connectWallet").onclick = async () => {
     try {
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        signer = provider.getSigner();
+        const provider = await web3Modal.connect();
+        walletConnected = true;
 
-        const address = await signer.getAddress();
-        document.getElementById("wallet-address").innerText = address;
-        return address;
+        document.getElementById("walletStatus").innerText = "✔ تم ربط المحفظة";
+        checkReady();
     } catch (err) {
-        alert("فشل الاتصال بالمحفظة: " + err.message);
-        return null;
+        alert("فشل ربط المحفظة");
+    }
+};
+
+// تفعيل زر المطالبة
+function checkReady() {
+    if (walletConnected && twitterFollowed) {
+        document.getElementById("claimBtn").disabled = false;
     }
 }
