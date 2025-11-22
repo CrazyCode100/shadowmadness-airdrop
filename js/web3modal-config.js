@@ -1,33 +1,26 @@
-import { createWeb3Modal, defaultConfig } from "https://esm.sh/@web3modal/ethers5";
+import { createWeb3Modal, defaultConfig } from 'https://esm.sh/@web3modal/ethers5';
 
-export const projectId = "5b9f8c3e8b0fec7b8dce08512c9e0032"; // ID مجاني
+const projectId = "demo"; // بدون API – وضع تجريبي
 
-export const chains = [
-  {
+const bscTestnet = {
     chainId: 97,
-    name: "BNB Chain Testnet",
+    name: "BSC Testnet",
     currency: "tBNB",
     explorerUrl: "https://testnet.bscscan.com",
-    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545"
-  }
-];
-
-export const metadata = {
-  name: "CrazyCode Airdrop",
-  description: "AI-Managed Token Airdrop",
-  url: "https://crazycode100.github.io/shadowmadness-airdrop/",
-  icons: ["https://crazycode100.github.io/shadowmadness-airdrop/assets/logo.png"]
+    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545/"
 };
 
-export const ethersConfig = defaultConfig({
-  metadata,
-  enableEmail: false,
-  enableWalletConnect: true
-});
+const metadata = {
+    name: "CrazyCode Airdrop",
+    description: "Airdrop System",
+    url: "https://crazycode100.github.io/shadowmadness-airdrop",
+    icons: ["https://crazycode100.github.io/shadowmadness-airdrop/assets/logo.png"]
+};
 
 createWeb3Modal({
-  ethersConfig,
-  chains,
-  projectId,
-  themeMode: "dark"
+    ethersConfig: defaultConfig({ metadata }),
+    chains: [bscTestnet],
+    projectId
 });
+
+export const provider = window.ethereum;
