@@ -1,172 +1,124 @@
-// إعدادات عامة
-const CRAZYCODE_ADDRESS = "0xc00E9CB1f4449351E8240A0B7Cb80a60e4f3112F";
-const CRAZYCODE_ABI = [
-  "function claimAirdrop() external",
-  "function hasClaimed(address) view returns (bool)"
+/* ===========================================================
+   CrazyCode Airdrop Frontend
+   - Connect Wallet
+   - Check Twitter Follow (via API)
+   - Call Smart Contract claimAirdrop()
+=========================================================== */
+
+const contractAddress = "0x2431bB3634b46dE79390CC843de2052298cB9121"; 
+const contractABI = [
+    // ====== claimAirdrop() ======
+    {
+        "inputs": [],
+        "name": "claimAirdrop",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+
+    // ====== hasClaimed(address) ======
+    {
+        "inputs": [{"internalType":"address","name":"","type":"address"}],
+        "name": "hasClaimed",
+        "outputs": [{"internalType":"bool","name":"","type":"bool"}],
+        "stateMutability": "view",
+        "type": "function"
+    },
+
+    // ====== claimCount() ======
+    {
+        "inputs": [],
+        "name": "claimCount",
+        "outputs": [{"internalType":"uint256","name":"","type":"uint256"}],
+        "stateMutability": "view",
+        "type": "function"
+    }
 ];
-const TWITTER_HANDLE = "ShadowMadnessLAP"; // غيّرها إذا كان اسم الحساب مختلفاً
 
-let provider = null;
-let signer = null;
-let contract = null;
-let walletAddress = null;
-let hasConfirmedFollow = false;
+let provider;
+let signer;
+let contract;
+let userAddress;
 
-const $ = (id) => document.getElementById(id);
+// =============================
+// 1. Connect Wallet
+// =============================
+document.getElementById("connectBtn").onclick = async () => {
+    try {
+        if (!window.ethereum) {
+            document.getElementById("status").innerText =
+                "⚠️ الرجاء تثبيت MetaMask أولاً";
+            return;
+        }
 
-// عناصر DOM
-const walletStatus = $("wallet-status");
-const networkPill = $("network-pill");
-const addrDisplayStats = $("stats-address");
-const statsClaimed = $("stats-claimed");
-const statsFollow = $("stats-follow");
-const toastEl = $("toast");
+        provider = new ethers.BrowserProvider(window.ethereum);
+        signer = await provider.getSigner();
+        userAddress = await signer.getAddress();
 
-function showToast(message, isError = false) {
-  toastEl.textContent = message;
-  toastEl.classList.remove("error", "show");
-  if (isError) toastEl.classList.add("error");
-  void toastEl.offsetWidth;
-  toastEl.classList.add("show");
-}
+        contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-function shortAddress(addr) {
-  if (!addr) return "غير متصل";
-  return addr.slice(0, 6) + "..." + addr.slice(-4);
-}
+        document.getElementById("status").innerText =
+            "🚀 تم ربط المحفظة بنجاح";
+        document.getElementById("claimBtn").classList.remove("disabled");
 
-function updateClaimButtonState() {
-  const canClaim = hasConfirmedFollow && !!walletAddress;
-  const btnClaim = $("btn-claim");
-  btnClaim.disabled = !canClaim;
-}
+    } catch (err) {
+        console.error(err);
+        document.getElementById("status").innerText =
+            "❌ فشل ربط المحفظة";
+    }
+};
 
-// فتح حساب تويتر
-$("btn-open-twitter").addEventListener("click", () => {
-  const url = `https://twitter.com/${TWITTER_HANDLE}`;
-  window.open(url, "_blank", "noopener");
-  showToast("تم فتح حساب X في نافذة جديدة، قم بالمتابعة ثم اضغط 'تأكيد المتابعة'.");
-});
-
-// تأكيد المتابعة (يدوي)
-$("btn-confirm-follow").addEventListener("click", () => {
-  hasConfirmedFollow = true;
-  $("follow-state-label") && ( $("follow-state-label").textContent = "تم التأكيد (يدوياً)" );
-  statsFollow.textContent = "تم التأكيد (يدوياً)";
-  document.getElementById("step-follow").classList.add("done");
-  updateClaimButtonState();
-  showToast("تم تأكيد المتابعة يدويًا. يمكنك لاحقًا إضافة تحقق حقيقي عبر Backend + Twitter API.");
-});
-
-// ربط المحفظة
-$("btn-connect-wallet").addEventListener("click", async () => {
-  try {
-    if (!window.ethereum) {
-      showToast("لم يتم العثور على MetaMask. رجاءً قم بتثبيته أولاً.", true);
-      return;
+// =============================
+// 2. Claim Airdrop
+// =============================
+document.getElementById("claimBtn").onclick = async () => {
+    if (!signer) {
+        document.getElementById("status").innerText =
+            "⚠️ الرجاء ربط المحفظة أولاً";
+        return;
     }
 
-    walletStatus.textContent = "جاري الاتصال...";
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts"
-    });
-    walletAddress = accounts[0];
+    // إيقاف الزر
+    document.getElementById("claimBtn").classList.add("disabled");
 
-    provider = new ethers.BrowserProvider(window.ethereum);
-    signer = await provider.getSigner();
-    contract = new ethers.Contract(CRAZYCODE_ADDRESS, CRAZYCODE_ABI, signer);
+    try {
+        // 1) الاتصال بالـ API للتأكد من المتابعة في تويتر
+        const response = await fetch(
+            `https://shadowmadness-api.vercel.app/check-follow?wallet=${userAddress}`
+        );
+        const data = await response.json();
 
-    walletStatus.textContent = "متصل";
-    walletStatus.classList.add("connected");
-    addrDisplayStats.textContent = shortAddress(walletAddress);
+        if (!data.following) {
+            document.getElementById("status").innerText =
+                "❌ يجب متابعة حساب X أولاً: @ShadowMadness_7";
+            document.getElementById("claimBtn").classList.remove("disabled");
+            return;
+        }
 
-    const net = await provider.getNetwork();
-    const chainId = Number(net.chainId);
-    networkPill.classList.remove("error");
+        // 2) التأكد من أنك لم تستلم مسبقاً
+        const claimed = await contract.hasClaimed(userAddress);
+        if (claimed) {
+            document.getElementById("status").innerText =
+                "⚠️ لقد حصلت على مكافأتك مسبقاً";
+            return;
+        }
 
-    if (chainId === 97) {
-      networkPill.innerHTML = '<span class="dot"></span> BNB Testnet (97)';
-    } else if (chainId === 56) {
-      networkPill.innerHTML = '<span class="dot"></span> BNB Mainnet (56)';
-    } else {
-      networkPill.innerHTML = '<span class="dot"></span> شبكة غير متوقعة (' + chainId + ')';
-      networkPill.classList.add("error");
+        // 3) تنفيذ المطالبة
+        document.getElementById("status").innerText =
+            "⏳ يتم الآن تنفيذ العملية…";
+
+        const tx = await contract.claimAirdrop();
+        await tx.wait();
+
+        document.getElementById("status").innerText =
+            "🎉 تم إرسال المكافأة إلى محفظتك!";
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById("status").innerText =
+            "❌ فشل تنفيذ العملية";
     }
 
-    updateClaimButtonState();
-    showToast("تم ربط المحفظة بنجاح.");
-  } catch (err) {
-    console.error(err);
-    walletStatus.textContent = "فشل الاتصال";
-    walletStatus.classList.add("error");
-    showToast("فشل ربط المحفظة: " + (err?.message || ""), true);
-  }
-});
-
-// التحقق من حالة الكليم من العقد
-async function refreshClaimed() {
-  if (!contract || !walletAddress) {
-    showToast("يجب أولاً ربط المحفظة.", true);
-    return;
-  }
-  try {
-    const claimed = await contract.hasClaimed(walletAddress);
-    const text = claimed ? "لقد طالبت بالفعل من العقد ✅" : "لم تطالب بعد، يمكنك المحاولة.";
-    statsClaimed.textContent = text;
-    $("claimed-label") && ( $("claimed-label").textContent = text );
-  } catch (err) {
-    console.error(err);
-    showToast("تعذر قراءة حالة الكليم من العقد.", true);
-  }
-}
-
-$("btn-refresh-claimed").addEventListener("click", refreshClaimed);
-$("btn-check-claimed").addEventListener("click", refreshClaimed);
-
-// تنفيذ claimAirdrop
-$("btn-claim").addEventListener("click", async () => {
-  if (!contract || !walletAddress) {
-    showToast("رجاءً اربط المحفظة أولاً.", true);
-    return;
-  }
-  if (!hasConfirmedFollow) {
-    showToast("يجب تأكيد متابعة حساب X قبل المطالبة.", true);
-    return;
-  }
-
-  const btn = $("btn-claim");
-
-  try {
-    btn.disabled = true;
-    btn.textContent = "جاري الإرسال...";
-    showToast("يتم الآن إرسال المعاملة إلى العقد المجنون…");
-
-    const tx = await contract.claimAirdrop();
-    showToast("تم إرسال المعاملة. انتظر تأكيد الشبكة…");
-    await tx.wait();
-
-    document.getElementById("step-claim").classList.add("done");
-    await refreshClaimed();
-    btn.textContent = "تم الكليم ✅";
-    showToast("مبروك! استلمت حصتك من CrazyCode. تحقق من رصيدك في المحفظة.");
-  } catch (err) {
-    console.error(err);
-    btn.disabled = false;
-    btn.textContent = "🎁 Claim CRAZYCODE";
-    const msg = err?.reason || err?.data?.message || err?.message || "فشل تنفيذ الكليم.";
-    showToast(msg, true);
-  }
-});
-
-// التبويبات
-document.querySelectorAll(".tab-link").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const tabId = btn.getAttribute("data-tab");
-
-    document.querySelectorAll(".tab-link").forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    document.querySelectorAll(".tab-content").forEach((tab) => tab.classList.remove("active"));
-    document.getElementById("tab-" + tabId).classList.add("active");
-  });
-});
+    // إعادة تفعيل الزر
+    document.getElementById("claimBtn").classList.remove("disabled");
+};
