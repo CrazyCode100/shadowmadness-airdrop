@@ -1,1 +1,51 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
+    text-align: center;
+}
+
+.container {
+    margin-top: 80px;
+}
+
+.logo {
+    width: 180px;
+    margin-bottom: 20px;
+    animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+    0%   { filter: drop-shadow(0 0 5px #8b38ff); }
+    100% { filter: drop-shadow(0 0 30px #8b38ff); }
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid #333;
+    padding: 25px;
+    width: 360px;
+    margin: auto;
+    border-radius: 15px;
+    backdrop-filter: blur(6px);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(45deg, #8b38ff, #d600ff);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
 
