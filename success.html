@@ -1,30 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-    <title>CrazyCode – Success</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم الاستلام - CrazyCode</title>
+
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .success-box {
+            margin-top: 80px;
+            background: #111;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px #7b2eff;
+        }
+
+        .success-title {
+            font-size: 34px;
+            color: #7b2eff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 12px #9b59ff;
+        }
+
+        .success-msg {
+            font-size: 22px;
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .home-btn {
+            background: #7b2eff;
+            padding: 14px 35px;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .home-btn:hover {
+            background: #9b59ff;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container" style="margin-top:100px;">
-    <h1 class="title">🎉 Claim Successful!</h1>
-    <p style="font-size:18px;">Your transaction:</p>
+    <div class="container">
+        <img src="logo.png" class="logo" alt="CrazyCode Logo">
 
-    <p id="tx" style="color:#8b38ff; font-size:16px;"></p>
+        <div class="success-box">
+            <div class="success-title">🎉 تهانينا!</div>
 
-    <a id="txLink" target="_blank">
-        <button class="btn">View on BscScan</button>
-    </a>
-</div>
+            <div class="success-msg">
+                لقد استلمت توكن <strong>CrazyCode</strong> بنجاح.<br>
+                تم تسجيل العملية على شبكة BSC Testnet.
+            </div>
 
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const hash = params.get("tx");
-
-    document.getElementById("tx").innerText = hash;
-    document.getElementById("txLink").href =
-        "https://testnet.bscscan.com/tx/" + hash;
-</script>
+            <a href="index.html" class="home-btn">العودة للصفحة الرئيسية</a>
+        </div>
+    </div>
 
 </body>
 </html>
