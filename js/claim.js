@@ -9,7 +9,7 @@ import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.es
    1 — إعداد عقد CrazyCode
    ========================================================== */
 
-export const CONTRACT_ADDRESS = "0x2431bB3634b46dE79390CC843de2052298cB9121";
+const CONTRACT_ADDRESS = "0x2431bB3634b46dE79390CC843de2052298cB9121";
 const ABI = [
     "function claimAirdrop() external",
     "function hasClaimed(address) view returns (bool)"
