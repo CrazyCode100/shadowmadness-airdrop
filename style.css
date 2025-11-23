@@ -1,1 +1,87 @@
+/* ============================
+   التصميم العام للموقع
+============================ */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: #fff;
+    font-family: "Tajawal", sans-serif;
+    text-align: center;
+}
+
+.container {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* ============================
+   الشعار
+============================ */
+
+.logo {
+    width: 140px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+}
+
+/* ============================
+   العناوين
+============================ */
+
+.title {
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #ddd;
+    margin-bottom: 25px;
+}
+
+/* ============================
+   الأزرار
+============================ */
+
+.btn {
+    background: #8a2be2;
+    border: none;
+    color: white;
+    padding: 14px;
+    font-size: 18px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: 0.2s ease-in-out;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.twitter-btn {
+    background: #1DA1F2;
+}
+
+.disabled {
+    background: #555 !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+/* ============================
+   رسائل الحالة
+============================ */
+
+.status {
+    font-size: 15px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    min-height: 20px;
+}
 
