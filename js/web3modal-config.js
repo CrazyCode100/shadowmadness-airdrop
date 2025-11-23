@@ -1,26 +1,49 @@
-import { createWeb3Modal, defaultConfig } from 'https://esm.sh/@web3modal/ethers5';
+/* ================================================================
+   web3modal-config.js
+   إعداد Web3Modal لربط جميع المحافظ على شبكة BSC Testnet
+   ================================================================= */
 
-const projectId = "demo"; // بدون API – وضع تجريبي
-
-const bscTestnet = {
-    chainId: 97,
-    name: "BSC Testnet",
-    currency: "tBNB",
-    explorerUrl: "https://testnet.bscscan.com",
-    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545/"
+export const WALLET_NETWORK = {
+    chainId: "0x61", // BSC Testnet — رقم الشبكة
+    chainName: "Binance Smart Chain Testnet",
+    nativeCurrency: {
+        name: "BNB Testnet",
+        symbol: "tBNB",
+        decimals: 18,
+    },
+    rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545/"],
+    blockExplorerUrls: ["https://testnet.bscscan.com/"],
 };
 
-const metadata = {
-    name: "CrazyCode Airdrop",
-    description: "Airdrop System",
-    url: "https://crazycode100.github.io/shadowmadness-airdrop",
-    icons: ["https://crazycode100.github.io/shadowmadness-airdrop/assets/logo.png"]
+/* ================================================================
+   مزودات المحافظ (Provider Options)
+   تدعم:
+   - MetaMask
+   - TrustWallet
+   - Binance Wallet
+   - WalletConnect v2
+   ================================================================= */
+
+export const providerOptions = {
+    walletconnect: {
+        package: window.WalletConnectProvider.default,
+        options: {
+            rpc: {
+                97: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+            },
+            chainId: 97,
+        },
+    },
+
+    binancechainwallet: {
+        package: true,
+    },
+
+    metamask: {
+        package: true,
+    },
+
+    trustwallet: {
+        package: true,
+    },
 };
-
-createWeb3Modal({
-    ethersConfig: defaultConfig({ metadata }),
-    chains: [bscTestnet],
-    projectId
-});
-
-export const provider = window.ethereum;
