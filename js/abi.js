@@ -1,14 +1,155 @@
-// =========================================
-// CRAZYCODE TOKEN ABI + CONTRACT ADDRESS
-// =========================================
+// ABI الخاص بعقد CRAZYCODE على BSC Mainnet
 
-// 🔥 عنوان العقد على BSC Mainnet
-const CRAZYCODE_ADDRESS = "0xE4d658bCCBB1B8e20BD0a81a3726fDF22f1A7997";
-
-// 🔥 ABI الخاص بالعقد (مختصر — فقط الوظائف المطلوبة للموقع)
 const CRAZYCODE_ABI = [
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "routerAddr",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "AIRDROP_END_TIME",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "CONTRACT_SHARE",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "EARLY_CLAIMERS",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "EARLY_REWARD",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "FINAL_TAX_BPS",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "LATE_REWARD",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "MAX_CLAIMERS",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "OWNER_SHARE",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "TOTAL_SUPPLY",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
 
-    // --- claimAirdrop ---
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "hasClaimed",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+
     {
         "inputs": [],
         "name": "claimAirdrop",
@@ -17,50 +158,97 @@ const CRAZYCODE_ABI = [
         "type": "function"
     },
 
-    // --- hasClaimed(address) ---
-    {
-        "inputs": [
-            { "internalType": "address", "name": "", "type": "address" }
-        ],
-        "name": "hasClaimed",
-        "outputs": [
-            { "internalType": "bool", "name": "", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-
-    // --- claimCount() ---
     {
         "inputs": [],
         "name": "claimCount",
         "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
         ],
         "stateMutability": "view",
         "type": "function"
     },
 
-    // --- MAX_CLAIMERS() ---
     {
         "inputs": [],
-        "name": "MAX_CLAIMERS",
+        "name": "tradingActive",
         "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
         ],
         "stateMutability": "view",
         "type": "function"
     },
 
-    // --- EARLY_CLAIMERS() ---
     {
         "inputs": [],
-        "name": "EARLY_CLAIMERS",
+        "name": "startTrading",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+
+    {
+        "inputs": [],
+        "name": "triggerStartTrading",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+
+    {
+        "inputs": [],
+        "name": "lockTaxForever",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+
+    {
+        "inputs": [],
+        "name": "router",
         "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
+            {
+                "internalType": "contract IUniswapV2Router",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+
+    {
+        "inputs": [],
+        "name": "pair",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+
+    {
+        "inputs": [],
+        "name": "WETH",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
         ],
         "stateMutability": "view",
         "type": "function"
     }
 ];
-
