@@ -1,1 +1,51 @@
+body {
+    background: #0d0d0d;
+    font-family: Arial;
+    color: #fff;
+    text-align: center;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.logo {
+    width: 140px;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #ccc;
+    font-size: 16px;
+}
+
+.btn {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #2b2b2b;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn.twitter {
+    background: #1DA1F2;
+}
+
+.btn.disabled {
+    background: #444;
+    cursor: not-allowed;
+}
+
+.status {
+    margin-top: 8px;
+    font-size: 14px;
+}
 
