@@ -1,61 +1,30 @@
-/* =====================================================
-   claim-airdrop.js — منطق التوزيع المجاني (Airdrop Logic)
-   ===================================================== */
-
-import { getProvider } from "./web3modal-config.js";
-
-// عنوان العقد الخاص بك
-const CONTRACT_ADDRESS = "0xE4d658bCCBB1B8e20BD0a81a3726fDF22f1A7997";
-
-// ABI الأساسي لدالة claim فقط
-const ABI = [
-    {
-        "inputs": [],
-        "name": "claim",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+document.getElementById("claimAirdrop").onclick = async () => {
+    if (!followed) {
+        alert("❌ يجب متابعة حساب تويتر أولاً");
+        return;
     }
-];
 
-// حساب X المطلوب
-const REQUIRED_X_USERNAME = "ShadowMadnessLab";
+    if (!userAccount) {
+        alert("❌ يجب ربط المحفظة أولاً");
+        return;
+    }
 
-// زر الكليم
-const btn = document.getElementById("claimBtn");
-
-// تشغيل الحدث عند الضغط
-btn.addEventListener("click", async () => {
-    btn.disabled = true;
-    btn.innerText = "جارٍ التحقق...";
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
     try {
-        // 1️⃣ — ربط المحفظة عبر web3modal
-        const provider = await getProvider();
-        if (!provider) {
-            btn.disabled = false;
-            btn.innerText = "Claim Airdrop";
-            return;
-        }
+        document.getElementById("claimStatus").innerHTML = "⏳ جاري التنفيذ...";
 
-        const ethersProvider = new ethers.providers.Web3Provider(provider);
-        const signer = ethersProvider.getSigner();
-        const userAddress = await signer.getAddress();
+        const tx = await contract.methods.claimAirdrop().send({
+            from: userAccount
+        });
 
-        console.log("Connected wallet:", userAddress);
+        document.getElementById("claimStatus").innerHTML =
+            "🎉 تمت المطالبة بنجاح!";
 
-        // 2️⃣ — التحقق من متابعة حساب X
-        const isFollowing = await checkTwitterFollow(userAddress);
-        if (!isFollowing) {
-            alert("⚠ يجب عليك متابعة حساب X قبل المطالبة بالتوكن!");
-            btn.disabled = false;
-            btn.innerText = "Claim Airdrop";
-            return;
-        }
-
-        // 3️⃣ — استدعاء العقد
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-
-        btn.innerText = "جارٍ إرسال المعاملة...";
-
-        const tx =
+    } catch (err) {
+        console.log(err);
+        document.getElementById("claimStatus").innerHTML =
+            "❌ فشل تنفيذ العملية";
+    }
+};
