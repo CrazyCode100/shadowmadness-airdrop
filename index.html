@@ -3,46 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>توزيع CrazyCode المجاني</title>
-    <link rel="stylesheet" href="style.css">
+    <title>🎁 CRAZYCODE Airdrop</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <img src="images/logo.png" class="logo" alt="CrazyCode Logo">
+    <img src="assets/logo.png" class="logo">
 
-        <h1 class="title">🎁 التوزيع المجاني لعملة CRAZYCODE</h1>
+    <h1 class="title">كريزي كود — التوزيع المجاني</h1>
 
-        <p class="subtitle">
-            العملة المدارة بالكامل بالذكاء الاصطناعي — الهدف: ∞
-        </p>
+    <p class="sub">⚡ يتم إدارته بالذكاء الاصطناعي • الهدف: الوصول إلى 1 دولار</p>
 
-        <br>
+    <!-- زر متابعة تويتر -->
+    <button id="followBtn" class="btn twitter">متابعة @CrazyCoderLab</button>
 
-        <button id="followBtn" class="twitter-btn">متابعة @CrazyCoderLab</button>
-        <p id="followStatus" class="status"></p>
+    <!-- التحقق من المتابعة -->
+    <button id="confirmFollow" class="btn gray">✔ تمّت المتابعة</button>
 
-        <br>
+    <p id="followStatus" class="status"></p>
 
-        <button id="connectWalletBtn" class="btn">🔗 ربط المحفظة</button>
-        <p id="walletStatus" class="status"></p>
+    <hr>
 
-        <br>
+    <!-- ربط المحفظة -->
+    <button id="connectWallet" class="btn purple">🔗 ربط المحفظة</button>
+    <p id="walletStatus" class="status"></p>
 
-        <button id="claimBtn" class="btn disabled" disabled>🎁 المطالبة بالمكافأة</button>
-        <p id="claimStatus" class="status"></p>
+    <!-- المطالبة -->
+    <button id="claimAirdrop" class="btn green disabled" disabled>🎁 مطالبة المكافأة</button>
+    <p id="claimStatus" class="status"></p>
 
-    </div>
+</div>
 
-    <!-- مكتبة Web3 -->
-    <script src="libs/web3.min.js"></script>
-
-    <!-- ملفات الجافاسكربت -->
-    <script src="abi.js"></script>
-    <script src="web3.js"></script>
-    <script src="app.js"></script>
+<!-- Scripts -->
+<script src="js/web3.min.js"></script>
+<script src="js/abi.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/twitter-check.js"></script>
+<script src="js/claim.js"></script>
 
 </body>
 </html>
