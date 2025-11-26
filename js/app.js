@@ -1,96 +1,81 @@
-/* ============================================================
-   app.js — المنطق الرئيسي لصفحة التوزيع (Airdrop Page)
-   ============================================================ */
+console.log("CrazyCode Airdrop App Loaded");
 
-import { connectWallet } from "./connect-wallet.js";
-import { CONTRACT_ADDRESS, CONTRACT_ABI, TWITTER_USER } from "./config.js";
-import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.esm.min.js";
+// ======== إعداد العقد ==========
 
-/* ================= عناصر الصفحة ================= */
+// عنوان عقدك على BSC Mainnet
+const CONTRACT_ADDRESS = "0xE4d658bCCBB1B8e20BD0a81a3726fDF22f1A7997";
 
-const followBtn = document.getElementById("followBtn");
-const followStatus = document.getElementById("followStatus");
-
-const connectBtn = document.getElementById("connectWalletBtn");
-const walletStatus = document.getElementById("walletStatus");
-
-const claimBtn = document.getElementById("claimBtn");
-const claimStatus = document.getElementById("claimStatus");
-
-let isFollowed = false;
-let userWallet = null;
-
-/* ============================================================
-   1 — زر متابعة تويتر
-   ============================================================ */
-
-followBtn.addEventListener("click", () => {
-    window.open(`https://twitter.com/${TWITTER_USER}`, "_blank");
-});
-
-/* ============================================================
-   2 — تأكيد المتابعة (بدون API — يدوي)
-   ============================================================ */
-
-document.getElementById("confirmFollowBtn").addEventListener("click", () => {
-    isFollowed = true;
-    followStatus.innerHTML = `<span style="color:#4cff4c;">✔ تم التأكيد أنك تتابع الحساب</span>`;
-    claimBtn.classList.remove("disabled");
-});
-
-/* ============================================================
-   3 — زر ربط المحفظة
-   ============================================================ */
-
-connectBtn.addEventListener("click", async () => {
-    const w = await connectWallet();
-    if (!w) return;
-
-    userWallet = w;
-    walletStatus.innerHTML = `<span style="color:#4cff4c;">✔ المحفظة: ${w.substring(0, 6)}...${w.slice(-4)}</span>`;
-});
-
-/* ============================================================
-   4 — زر المطالبة بالتوكن
-   ============================================================ */
-
-claimBtn.addEventListener("click", async () => {
-    if (!isFollowed) {
-        alert("يجب متابعة حساب تويتر أولاً!");
-        return;
+// ABI مختصر يحتوي فقط على دالة claimAirdrop
+const CONTRACT_ABI = [
+    {
+        "inputs": [],
+        "name": "claimAirdrop",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     }
+];
 
-    if (!userWallet) {
-        alert("يجب ربط المحفظة قبل المطالبة!");
-        return;
-    }
+// ======== متغيرات عامة ==========
+let provider;
+let signer;
+let contract;
 
+// ======== ربط المحفظة ==========
+async function connectWallet() {
     try {
-        claimStatus.innerHTML = `<span style="color:#ffd966;">⏳ جاري معالجة العملية...</span>`;
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-
-        // تحقق لمرة واحدة
-        const claimed = await contract.hasClaimed(userWallet);
-        if (claimed) {
-            claimStatus.innerHTML = `<span style="color:#ff6666;">❌ لقد حصلت على التوزيع مسبقاً</span>`;
+        if (window.ethereum === undefined) {
+            alert("⚠ الرجاء تثبيت MetaMask أولاً");
             return;
         }
 
-        const tx = await contract.claimAirdrop();
-        await tx.wait();
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
 
-        claimStatus.innerHTML = `<span style="color:#4cff4c;">🎉 تمت المطالبة بنجاح!</span>`;
+        signer = provider.getSigner();
+        const address = await signer.getAddress();
 
-        setTimeout(() => {
-            window.location.href = "success.html";
-        }, 1200);
+        document.getElementById("status").innerText = `🔗 تم الاتصال: ${address}`;
+
+        contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+        document.getElementById("claimBtn").disabled = false;
+        document.getElementById("claimBtn").innerText = "🎁 المطالبة الآن";
 
     } catch (err) {
         console.error(err);
-        claimStatus.innerHTML = `<span style="color:#ff6666;">❌ فشل تنفيذ العملية</span>`;
+        alert("حدث خطأ أثناء ربط المحفظة");
     }
-});
+}
+
+// ======== تنفيذ المطالبة ==========
+async function claimAirdrop() {
+    try {
+        if (!contract) {
+            alert("⚠ الرجاء ربط المحفظة أولاً");
+            return;
+        }
+
+        document.getElementById("claimBtn").innerText = "⏳ جاري التنفيذ...";
+
+        const tx = await contract.claimAirdrop();
+
+        document.getElementById("claimBtn").innerText = "⏳ جاري التأكيد...";
+
+        await tx.wait();
+
+        document.getElementById("claimBtn").innerText = "🎉 تم استلام التوكن!";
+        document.getElementById("claimBtn").disabled = true;
+
+        alert("🎉 تمت المطالبة بالتوكن بنجاح!");
+
+    } catch (err) {
+        console.error(err);
+        alert("⚠ العملية فشلت. ربما سبق لك المطالبة أو انتهى التوزيع.");
+        document.getElementById("claimBtn").innerText = "🎁 المطالبة الآن";
+    }
+}
+
+// ======== ربط الأزرار ==========
+document.getElementById("connectBtn").addEventListener("click", connectWallet);
+document.getElementById("claimBtn").addEventListener("click", claimAirdrop);
