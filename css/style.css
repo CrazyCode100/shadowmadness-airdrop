@@ -1,1 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+body {
+    background: #000;
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+}
+
+.container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.logo {
+    width: 180px;
+    height: auto;
+    margin: 20px auto;
+    display: block;
+    filter: drop-shadow(0px 0px 15px #7a2bff);
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 900;
+    margin-top: 10px;
+    color: #fff;
+    text-shadow: 0 0 10px #6c1cff;
+}
+
+.sub {
+    color: #bbbbbb;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    font-weight: 700;
+}
+
+.btn:hover {
+    transform: scale(1.03);
+}
+
+.purple {
+    background: #7a2bff;
+    color: #fff;
+    box-shadow: 0 0 10px #7a2bff;
+}
+
+.green {
+    background: #0ed145;
+    color: #fff;
+    box-shadow: 0 0 10px #0ed145;
+}
+
+.gray {
+    background: #2f2f2f;
+    color: #ccc;
+}
+
+.twitter {
+    background: #1da1f2;
+    color: #fff;
+    box-shadow: 0 0 10px #1da1f2;
+}
+
+.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+
+.status {
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 10px;
+    height: 20px;
+}
+
+hr {
+    margin: 30px 0;
+    border: none;
+    height: 1px;
+    background: #222;
+}
 
