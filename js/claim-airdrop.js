@@ -1,30 +1,30 @@
-document.getElementById("claimAirdrop").onclick = async () => {
-    if (!followed) {
-        alert("❌ يجب متابعة حساب تويتر أولاً");
-        return;
-    }
+import { ABI, CONTRACT_ADDRESS } from "./abi.js";
+import { connectWallet } from "./wallet.js";
 
-    if (!userAccount) {
-        alert("❌ يجب ربط المحفظة أولاً");
-        return;
-    }
+const claimBtn = document.getElementById("claimAirdrop");
+const claimStatus = document.getElementById("claimStatus");
 
-    const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+claimBtn.onclick = async () => {
+    const user = await connectWallet();
+    if (!user) return;
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 
     try {
-        document.getElementById("claimStatus").innerHTML = "⏳ جاري التنفيذ...";
+        const already = await contract.hasClaimed(user);
+        if (already) {
+            claimStatus.innerHTML = "❌ لقد حصلت سابقاً";
+            return;
+        }
 
-        const tx = await contract.methods.claimAirdrop().send({
-            from: userAccount
-        });
+        const tx = await contract.claimAirdrop();
+        await tx.wait();
 
-        document.getElementById("claimStatus").innerHTML =
-            "🎉 تمت المطالبة بنجاح!";
-
+        claimStatus.innerHTML = "🎉 تم استلام المكافأة!";
     } catch (err) {
-        console.log(err);
-        document.getElementById("claimStatus").innerHTML =
-            "❌ فشل تنفيذ العملية";
+        console.error(err);
+        claimStatus.innerHTML = "❌ فشل تنفيذ العملية";
     }
 };
