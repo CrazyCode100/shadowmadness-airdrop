@@ -1,20 +1,37 @@
-let userAccount = null;
+import { providerOptions, BSC_PARAMS } from "./web3modal-config.js";
 
-document.getElementById("connectWallet").onclick = async () => {
-    if (window.ethereum) {
-        try {
-            const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-            userAccount = accounts[0];
-            document.getElementById("walletStatus").innerHTML =
-                "✔ متصل: " + userAccount.substring(0, 6) + "..." + userAccount.slice(-4);
+let web3Modal;
+let provider;
+let signer;
+let user;
 
-            document.getElementById("claimAirdrop").disabled = false;
-            document.getElementById("claimAirdrop").classList.remove("disabled");
+async function initModal() {
+    web3Modal = new window.Web3Modal.default({
+        cacheProvider: false,
+        providerOptions,
+        theme: "dark"
+    });
+}
 
-        } catch (err) {
-            alert("❌ فشل ربط المحفظة");
-        }
-    } else {
-        alert("❌ لا يوجد MetaMask");
+await initModal();
+
+export async function connectWallet() {
+    try {
+        provider = await web3Modal.connect();
+        const ethersProvider = new ethers.providers.Web3Provider(provider);
+
+        signer = ethersProvider.getSigner();
+        user = await signer.getAddress();
+
+        document.getElementById("walletStatus").innerHTML =
+            `✔ متصل: ${user.substring(0, 6)}...${user.slice(-4)}`;
+
+        document.getElementById("connectWallet").classList.add("disabled");
+
+        return user;
+    } catch (err) {
+        console.error(err);
+        alert("فشل ربط المحفظة!");
+        return null;
     }
-};
+}
