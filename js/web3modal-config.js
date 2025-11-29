@@ -1,33 +1,19 @@
-/* ============================================================
-   web3modal-config.js — تهيئة Web3Modal للاتصال بالمحفظة
-   ============================================================ */
+import WalletConnectProvider from "https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.9.0/dist/index.min.js";
 
-import { EthereumProvider } from "@walletconnect/ethereum-provider";
-import { Web3Modal } from "@web3modal/standalone";
-
-export const web3Modal = new Web3Modal({
-    projectId: "shadow-madness-claim-001",   // اسم مخصص — يمكنك تغييره
-    walletImages: {}, 
-    themeMode: "dark",
-    themeVariables: {
-        "--w3m-accent-color": "#ff0066",
-        "--w3m-background-color": "#0a0a0a"
-    }
-});
-
-// تهيئة الإيثريوم — لدعم المحافظ في المستقبل لو احتجت
-export async function getProvider() {
-    try {
-        const provider = await web3Modal.connectWallet();
-
-        if (!provider) {
-            alert("⚠ لم يتم ربط المحفظة");
-            return null;
+export const providerOptions = {
+    walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+            projectId: "b2e38cb3a203f72c1d6439c9b0cc8e09", 
+            chains: [56], // BNB Chain Mainnet
         }
-
-        return provider;
-    } catch (error) {
-        console.error("❌ Web3Modal Provider Error:", error);
-        return null;
     }
-}
+};
+
+export const BSC_PARAMS = {
+    chainId: "0x38",
+    chainName: "BNB Smart Chain",
+    nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+    rpcUrls: ["https://bsc-dataseed.binance.org/"],
+    blockExplorerUrls: ["https://bscscan.com/"]
+};
