@@ -1,98 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 CRAZYCODE Airdrop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
-body {
-    background: #000;
-    font-family: 'Cairo', sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #fff;
-    text-align: center;
-}
+<body>
 
-.container {
-    max-width: 450px;
-    margin: 40px auto;
-    padding: 20px;
-}
+<div class="container">
 
-.logo {
-    width: 180px;
-    height: auto;
-    margin: 20px auto;
-    display: block;
-    filter: drop-shadow(0px 0px 15px #7a2bff);
-}
+    <img src="assets/logo.png" class="logo">
 
-.title {
-    font-size: 32px;
-    font-weight: 900;
-    margin-top: 10px;
-    color: #fff;
-    text-shadow: 0 0 10px #6c1cff;
-}
+    <h1 class="title">كريزي كود — التوزيع المجاني</h1>
 
-.sub {
-    color: #bbbbbb;
-    font-size: 16px;
-    margin-bottom: 25px;
-}
+    <p class="sub">⚡ يتم تشغيله بالذكاء الاصطناعي • الهدف = ∞</p>
 
-.btn {
-    width: 100%;
-    padding: 15px;
-    font-size: 18px;
-    margin-top: 12px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.25s ease;
-    font-weight: 700;
-}
+    <!-- زر متابعة تويتر -->
+    <button id="followBtn" class="btn twitter">متابعة @CrazyCoderLab</button>
 
-.btn:hover {
-    transform: scale(1.03);
-}
+    <!-- تأكيد المتابعة -->
+    <button id="confirmFollow" class="btn gray">✔ تمّت المتابعة</button>
 
-.purple {
-    background: #7a2bff;
-    color: #fff;
-    box-shadow: 0 0 10px #7a2bff;
-}
+    <p id="followStatus" class="status"></p>
 
-.green {
-    background: #0ed145;
-    color: #fff;
-    box-shadow: 0 0 10px #0ed145;
-}
+    <hr>
 
-.gray {
-    background: #2f2f2f;
-    color: #ccc;
-}
+    <!-- ربط المحفظة -->
+    <button id="connectWallet" class="btn purple">🔗 ربط المحفظة</button>
+    <p id="walletStatus" class="status"></p>
 
-.twitter {
-    background: #1da1f2;
-    color: #fff;
-    box-shadow: 0 0 10px #1da1f2;
-}
+    <!-- المطالبة -->
+    <button id="claimAirdrop" class="btn green disabled" disabled>🎁 مطالبة المكافأة</button>
+    <p id="claimStatus" class="status"></p>
 
-.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    box-shadow: none !important;
-}
+</div>
 
-.status {
-    color: #aaa;
-    font-size: 14px;
-    margin-top: 10px;
-    height: 20px;
-}
+<!-- Scripts -->
+<script type="module" src="js/web3modal-config.js"></script>
+<script type="module" src="js/wallet.js"></script>
+<script type="module" src="js/abi.js"></script>
+<script type="module" src="js/twitter-check.js"></script>
+<script type="module" src="js/claim.js"></script>
 
-hr {
-    margin: 30px 0;
-    border: none;
-    height: 1px;
-    background: #222;
-}
-
+</body>
+</html>
