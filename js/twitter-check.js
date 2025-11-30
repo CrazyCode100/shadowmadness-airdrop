@@ -1,21 +1,22 @@
-import { TWITTER } from "./config.js";
-
 const followBtn = document.getElementById("followBtn");
 const confirmBtn = document.getElementById("confirmFollow");
 const followStatus = document.getElementById("followStatus");
 
-let followed = false;
-
 followBtn.addEventListener("click", () => {
-    window.open(`https://twitter.com/${TWITTER}`, "_blank");
+    const username = window.CRAZY_CONFIG.TWITTER;
+    window.open(`https://twitter.com/${username}`, "_blank");
 });
 
 confirmBtn.addEventListener("click", () => {
-    followed = true;
-    followStatus.innerHTML = "✔ تم التأكيد أنك تتابع الحساب";
-    confirmBtn.classList.add("disabled");
-});
+    window.CRAZY_STATE.followed = true;
+    followStatus.innerHTML = "✔ تم التأكيد أنك تتابع حساب X المطلوب";
 
-export function isFollowed() {
-    return followed;
-}
+    confirmBtn.classList.add("disabled");
+
+    // لو المحفظة مربوطة → نفعّل زر المطالبة
+    if (window.CRAZY_STATE.signer && window.CRAZY_STATE.userAddress) {
+        const claimBtn = document.getElementById("claimAirdrop");
+        claimBtn.classList.remove("disabled");
+        claimBtn.disabled = false;
+    }
+});
