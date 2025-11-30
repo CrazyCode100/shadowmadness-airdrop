@@ -1,37 +1,35 @@
-import { providerOptions, BSC_PARAMS } from "./web3modal-config.js";
+import { CONTRACT, ABI } from "./config.js";
 
-let web3Modal;
 let provider;
 let signer;
 let user;
 
-async function initModal() {
-    web3Modal = new window.Web3Modal.default({
-        cacheProvider: false,
-        providerOptions,
-        theme: "dark"
-    });
-}
+const connectBtn = document.getElementById("connectWallet");
+const walletStatus = document.getElementById("walletStatus");
 
-await initModal();
-
-export async function connectWallet() {
+connectBtn.addEventListener("click", async () => {
     try {
-        provider = await web3Modal.connect();
-        const ethersProvider = new ethers.providers.Web3Provider(provider);
+        if (window.ethereum) {
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
 
-        signer = ethersProvider.getSigner();
-        user = await signer.getAddress();
+            signer = provider.getSigner();
+            user = await signer.getAddress();
 
-        document.getElementById("walletStatus").innerHTML =
-            `✔ متصل: ${user.substring(0, 6)}...${user.slice(-4)}`;
+            walletStatus.innerHTML = `✔ تم الربط: ${user.substring(0,6)}...${user.slice(-4)}`;
+            connectBtn.classList.add("disabled");
 
-        document.getElementById("connectWallet").classList.add("disabled");
+            document.getElementById("claimAirdrop").classList.remove("disabled");
+            document.getElementById("claimAirdrop").disabled = false;
 
-        return user;
+        } else {
+            alert("⚠ لا يوجد MetaMask أو محفظة Web3، استخدم TrustWallet / Binance Wallet.");
+        }
     } catch (err) {
-        console.error(err);
-        alert("فشل ربط المحفظة!");
-        return null;
+        alert("❌ فشل ربط المحفظة");
     }
+});
+
+export function getSigner() {
+    return signer;
 }
