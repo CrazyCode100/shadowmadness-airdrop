@@ -1,18 +1,21 @@
-export let followConfirmed = false;
+import { TWITTER } from "./config.js";
 
 const followBtn = document.getElementById("followBtn");
 const confirmBtn = document.getElementById("confirmFollow");
-const statusBox = document.getElementById("followStatus");
+const followStatus = document.getElementById("followStatus");
 
-followBtn.onclick = () => {
-    window.open("https://twitter.com/CrazyCoderLab", "_blank");
-};
+let followed = false;
 
-confirmBtn.onclick = () => {
-    followConfirmed = true;
-    statusBox.innerHTML = "✔ تمّ التأكيد أنك تتابع الحساب";
+followBtn.addEventListener("click", () => {
+    window.open(`https://twitter.com/${TWITTER}`, "_blank");
+});
+
+confirmBtn.addEventListener("click", () => {
+    followed = true;
+    followStatus.innerHTML = "✔ تم التأكيد أنك تتابع الحساب";
     confirmBtn.classList.add("disabled");
+});
 
-    document.getElementById("claimAirdrop").disabled = false;
-    document.getElementById("claimAirdrop").classList.remove("disabled");
-};
+export function isFollowed() {
+    return followed;
+}
