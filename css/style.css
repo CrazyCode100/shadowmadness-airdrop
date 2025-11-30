@@ -1,38 +1,42 @@
 body {
     font-family: "Tahoma", sans-serif;
-    background: #0b0b0c;
+    background: #05050a;
     color: #fff;
     text-align: center;
+    direction: rtl;
 }
 
 .container {
     width: 90%;
-    max-width: 400px;
+    max-width: 430px;
     margin: auto;
     padding-top: 40px;
 }
 
 .logo {
     width: 140px;
+    border-radius: 50%;
+    margin-bottom: 10px;
 }
 
 .title {
-    font-size: 26px;
-    margin-top: 15px;
+    font-size: 24px;
+    margin-top: 5px;
 }
 
 .sub {
-    font-size: 14px;
+    font-size: 13px;
     color: #aaa;
+    margin-bottom: 20px;
 }
 
 .btn {
     width: 100%;
     padding: 14px;
-    margin-top: 12px;
+    margin-top: 10px;
     border: none;
     border-radius: 9px;
-    font-size: 17px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -57,11 +61,12 @@ body {
 }
 
 .disabled {
-    opacity: 0.4;
+    opacity: 0.45;
     cursor: not-allowed;
 }
 
 .status {
-    font-size: 14px;
-    margin-top: 8px;
+    font-size: 13px;
+    margin-top: 6px;
+    min-height: 18px;
 }
